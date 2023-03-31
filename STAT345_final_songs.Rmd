@@ -1,6 +1,6 @@
 ---
 title: "STAT 345 Final Project - Over and Over and Over and Over"
-author: "STAT 345"
+author: "Matt Nowell, Sam Schuster, James Spalding, Ben Bronoski"
 output: html_document
 ---
 
