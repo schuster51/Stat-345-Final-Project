@@ -30,3 +30,105 @@ Advice for getting started:
 6. (If possible) Extend your work to more songs! Consider more questions, like "Does genre matter?".
 
 hi hello
+Packages:
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+
+Ugly data collection:
+```{r}
+url = "https://en.wikipedia.org/wiki/Billboard_year-end_top_50_singles_of_1958"
+h = read_html(url)
+table_1958 = h %>% html_table
+table_1958 = data.frame(table_1958[[1]])
+year = rep(1958, each = 51)
+new_table = cbind(table_1958, year)
+table_1958 = setNames(object = final_table, c("No.", "Title", "Artist", "Year"))
+table_1958 = table_1958[1:20,]
+
+url2 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1959"
+h2 = read_html(url2)
+table_1959 = h2 %>% html_table
+table_1959 = data.frame(table_1959[[1]])
+year2 = rep(1959, each = 100)
+new_table2 = cbind(table_1959, year2)
+table_1959 = setNames(object = new_table2, c("No.", "Title", "Artist", "Year"))
+table_1959 = table_1959[1:20,]
+
+url3 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1960"
+h3 = read_html(url3)
+table_1960 = h3 %>% html_table
+table_1960 = data.frame(table_1960[[1]])
+year3 = rep(1960, each = 100)
+new_table3 = cbind(table_1960, year3)
+table_1960 = setNames(object = new_table3, c("No.", "Title", "Artist", "Year"))
+table_1960 = table_1960[1:20,]
+
+url4 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1961"
+h4 = read_html(url4)
+table_1961 = h4 %>% html_table
+table_1961 = data.frame(table_1961[[1]])
+year4 = rep(1961, each = 100)
+new_table4 = cbind(table_1961, year4)
+table_1961 = setNames(object = new_table4, c("No.", "Title", "Artist", "Year"))
+table_1961 = table_1961[1:20,]
+
+url5 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1962"
+h5 = read_html(url5)
+table_1962 = h5 %>% html_table
+table_1962 = data.frame(table_1962[[1]])
+year5 = rep(1962, each = 100)
+new_table5 = cbind(table_1962, year5)
+table_1962 = setNames(object = new_table5, c("No.", "Title", "Artist", "Year"))
+table_1962 = table_1962[1:20,]
+
+url6 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1963"
+h6 = read_html(url6)
+table_1963 = h6 %>% html_table
+table_1963 = data.frame(table_1963[[1]])
+year6 = rep(1963, each = 100)
+new_table6 = cbind(table_1963, year6)
+table_1963 = setNames(object = new_table6, c("No.", "Title", "Artist", "Year"))
+table_1963 = table_1963[1:20,]
+
+url7 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1964"
+h7 = read_html(url7)
+table_1964 = h7 %>% html_table
+table_1964 = data.frame(table_1964[[1]])
+year7 = rep(1964, each = 100)
+new_table7 = cbind(table_1964, year7)
+table_1964 = setNames(object = new_table7, c("No.", "Title", "Artist", "Year"))
+table_1964 = table_1964[1:20,]
+
+url8 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1965"
+h8 = read_html(url8)
+table_1965 = h8 %>% html_table
+table_1965 = data.frame(table_1965[[1]])
+year8 = rep(1965, each = 100)
+new_table8 = cbind(table_1965, year8)
+table_1965 = setNames(object = new_table8, c("No.", "Title", "Artist", "Year"))
+table_1965 = table_1965[1:20,]
+
+url9 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1966"
+h9 = read_html(url9)
+table_1966 = h9 %>% html_table
+table_1966 = data.frame(table_1966[[1]])
+year9 = rep(1966, each = 100)
+new_table9 = cbind(table_1966, year9)
+table_1966 = setNames(object = new_table9, c("No.", "Title", "Artist", "Year"))
+table_1966 = table_1966[1:20,]
+
+url10 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1967"
+h10 = read_html(url10)
+table_1967 = h10 %>% html_table
+table_1967 = data.frame(table_1967[[1]])
+year10 = rep(1967, each = 100)
+new_table10 = cbind(table_1967, year10)
+table_1967 = setNames(object = new_table10, c("No.", "Title", "Artist", "Year"))
+table_1967 = table_1967[1:20,]
+
+final_table = rbind.data.frame(table_1958, table_1959, table_1960, table_1961, table_1962, table_1963, table_1964, table_1965, table_1966, table_1967)
+```
+
