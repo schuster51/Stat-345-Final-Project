@@ -23,7 +23,7 @@ table_1958 = h %>% html_table
 table_1958 = data.frame(table_1958[[1]])
 year = rep(1958, each = 51)
 new_table = cbind(table_1958, year)
-table_1958 = setNames(object = final_table, c("No.", "Title", "Artist", "Year"))
+table_1958 = setNames(object = new_table, c("No.", "Title", "Artist", "Year"))
 table_1958 = table_1958[1:20,]
 
 url2 = "https://en.wikipedia.org/wiki/Billboard_Year-End_Hot_100_singles_of_1959"
