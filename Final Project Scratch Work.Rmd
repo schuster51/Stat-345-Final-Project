@@ -118,3 +118,5 @@ class(t)
 t
 ```
 
+search_genius_song("Anyone", access_token = "Pw4SWCTcCJcA53rl8UtrobHaevp_j_TQJo6fM6zyf6hdwSoerT8p0nTsl2xUbv8n")
+get_genius_song_lyrics(5467694, access_token = "Pw4SWCTcCJcA53rl8UtrobHaevp_j_TQJo6fM6zyf6hdwSoerT8p0nTsl2xUbv8n")
