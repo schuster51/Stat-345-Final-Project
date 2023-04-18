@@ -1,5 +1,6 @@
 library(rvest)
 library(tidyverse)
+library(rgenius)
 
 #Used Ben's code to make an initial table to bind all future years to
 url1958 = "https://en.wikipedia.org/wiki/Billboard_year-end_top_50_singles_of_1958"
@@ -11,8 +12,6 @@ new_table = cbind(table_1958, year)
 table_1958 = setNames(object = new_table, c("No.", "Title", "Artist", "Year")) %>%
   relocate("Year", .before = "No." )
 topSongs = table_1958[1:20,]
-
-
 
 for(yearVar in 1959:2011){
   #Using the iterated yearVar variable to get the url for any given year
@@ -83,3 +82,46 @@ for(yearVar in 2014:2022){
   topSongs = rbind(topSongs, tableTemp)
   print(yearVar)
 }
+
+###################
+
+#Scrub for lyrics
+#Idea
+  #search https://genius.com/artist-name-song-name-lyrics
+  #If found, paste lyrics into table
+  #Else, Paste NA into table
+  #Fill in the rest manually
+  #Need EVERY WORD from EVERY SONG put into a list
+
+#i only goes to 3 for stesting purposes. Put it at any value you want.
+for(i in 1:3){
+  #Grab and format song names
+  songnameTemp = topSongs[i,3]
+  songnameTemp2 = gsub("[[:punct:]]", "", songnameTemp)
+  songnameFormat = gsub(" ", "-", songnameTemp2)
+    #Some songs are split into 2; need an if statement.
+    if(grepl("--", songnameFormat)){
+      songnameFormat <- strsplit(songnameFormat, "--")[[1]]
+      print(songnameFormat)
+    } else{
+      print(songnameFormat)
+    }
+  
+  #Grab and format artist name
+  artistnameTemp = topSongs[i,4]
+  artistnameTemp2 = gsub("[[:punct:]]", "", artistnameTemp)
+  artistnameTemp3 = gsub(" ", "-", artistnameTemp2)
+  artistnameFormat = paste(artistnameTemp3, "-", sep = "")
+  print(artistnameFormat)
+  
+  #Paste them together for a link
+  geniusURLTemp = "https://genius.com/"
+  geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
+  print(geniusURL)
+}
+
+
+
+
+
+
