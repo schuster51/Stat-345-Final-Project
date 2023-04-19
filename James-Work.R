@@ -93,15 +93,18 @@ for(yearVar in 2014:2022){
   #Fill in the rest manually
   #Need EVERY WORD from EVERY SONG put into a list
 
-#i only goes to 3 for stesting purposes. Put it at any value you want.
-for(i in 1:3){
+#i only goes to 3 for testing purposes. Put it at any value you want.
+for(i in 1291){
   #Grab and format song names
   songnameTemp = topSongs[i,3]
   songnameTemp2 = gsub("[[:punct:]]", "", songnameTemp)
-  songnameFormat = gsub(" ", "-", songnameTemp2)
+  songnameFormat = gsub(" ", "-", songnameTemp2) %>%
+    tolower()
+  
     #Some songs are split into 2; need an if statement.
     if(grepl("--", songnameFormat)){
-      songnameFormat <- strsplit(songnameFormat, "--")[[1]]
+      songnameFormat = strsplit(songnameFormat, "--")[[1]] %>%
+        tolower()
       print(songnameFormat)
     } else{
       print(songnameFormat)
@@ -114,10 +117,19 @@ for(i in 1:3){
   artistnameFormat = paste(artistnameTemp3, "-", sep = "")
   print(artistnameFormat)
   
-  #Paste them together for a link
-  geniusURLTemp = "https://genius.com/"
-  geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
-  print(geniusURL)
+    #Need to remove featured artists. If there is a featured artist, it will drop their name. Otherwise, it will print song as-is (or multiple if applicable)
+    if(grepl("-featuring", artistnameFormat)){
+      artistnameFormat = strsplit(artistnameFormat, "featuring")[[1]]
+      print(songnameFormat[1])
+      geniusURLTemp = "https://genius.com/"
+      geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
+      print(geniusURL[1])
+    } else{
+      geniusURLTemp = "https://genius.com/"
+      geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
+      print(geniusURL)
+    }
+
 }
 
 
