@@ -110,14 +110,6 @@ table_1967 = table_1967[1:20,]
 final_table = rbind.data.frame(table_1958, table_1959, table_1960, table_1961, table_1962, table_1963, table_1964, table_1965, table_1966, table_1967)
 ```
 
-Different url:
-```{r}
-url2 = "https://en.wikipedia.org/wiki/List_of_Billboard_Hot_100_number-one_singles_from_1958_to_1969"
-t = read_html(url2) %>% html_elements(".tright+ .jquery-tablesorter td")
-class(t)
-t
-```
-
 #Modify James' code to create url's to scrape for lyrics
 
 for(i in 1:3){
@@ -146,3 +138,27 @@ for(i in 1:3){
   geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
   print(geniusURL)
 }
+```{r}
+genius_url = "https://genius.com/The-young-rascals-groovin-lyrics"
+html = read_html(genius_url)
+lyrics = html_node(html, ".Dzxov")
+groovin = html_text(lyrics)
+
+get_lyrics <- function(urls) {
+  lyrics_vec <- vector("character", length(urls))
+  
+  for (i in seq_along(urls)) {
+    html <- read_html(urls[i])
+    lyrics_node <- html_node(html, ".Dzxov")
+    lyrics_text <- html_text(lyrics_node)
+    lyrics_vec[i] <- lyrics_text
+  }
+  
+  return(lyrics_vec)
+}
+
+new_lyrics = tolower("[Intro][Chorus 1]Groovin' on a Sunday afternoonReally couldn't get away too soon[Verse 1]I can't imagine anything that's betterThe world is ours whenever we're togetherThere ain't a place I'd like to be instead of[Chorus 2]Movin' down a crowded avenueDoin' anything we like to do[Verse 2]There's always lots of things that we can seeWe can be anyone we like to beAnd all those happy people we could meet just[Chorus 1]Groovin' on a Sunday afternoonReally couldn't get away too soonNo, no, no, no[Bridge][Verse 3]We'll keep on spending sunny days this wayWe're gonna talk and laugh our time awayI feel it coming closer day by dayLife would be ecstasy, you and me endlessly[Chorus]Groovin' on a Sunday afternoonReally couldn't get away to soonNo, no, no, no")
+words = strsplit(new_lyrics, "\\W+")
+word_counts = table(words)
+word_counts[order(-word_counts)]
+```
