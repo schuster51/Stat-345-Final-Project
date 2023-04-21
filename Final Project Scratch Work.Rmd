@@ -145,7 +145,7 @@ lyrics = html_node(html, ".Dzxov")
 groovin = html_text(lyrics)
 
 get_lyrics <- function(urls) {
-  lyrics_vec <- vector("character", length(urls))
+  lyrics_vec <- vector(mode = "character", length(urls))
   
   for (i in seq_along(urls)) {
     tryCatch({
@@ -154,7 +154,7 @@ get_lyrics <- function(urls) {
       lyrics_text <- html_text(lyrics_node)
       lyrics_vec[i] <- lyrics_text
     }, error = function(e) {
-      lyrics_vec[i] <- "N/A"
+      lyrics_vec[i] <- "nothing"
     })
   }
   
