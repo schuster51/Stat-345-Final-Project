@@ -148,10 +148,14 @@ get_lyrics <- function(urls) {
   lyrics_vec <- vector("character", length(urls))
   
   for (i in seq_along(urls)) {
-    html <- read_html(urls[i])
-    lyrics_node <- html_node(html, ".Dzxov")
-    lyrics_text <- html_text(lyrics_node)
-    lyrics_vec[i] <- lyrics_text
+    tryCatch({
+      html <- read_html(urls[i])
+      lyrics_node <- html_node(html, ".Dzxov")
+      lyrics_text <- html_text(lyrics_node)
+      lyrics_vec[i] <- lyrics_text
+    }, error = function(e) {
+      lyrics_vec[i] <- "N/A"
+    })
   }
   
   return(lyrics_vec)
