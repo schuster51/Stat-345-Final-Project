@@ -85,16 +85,11 @@ for(yearVar in 2014:2022){
 
 ###################
 
-#Scrub for lyrics
-#Idea
-  #search https://genius.com/artist-name-song-name-lyrics
-  #If found, paste lyrics into table
-  #Else, Paste NA into table
-  #Fill in the rest manually
-  #Need EVERY WORD from EVERY SONG put into a list
+#Generate URLs
 
-#i only goes to 3 for testing purposes. Put it at any value you want.
-for(i in 1291){
+URLVector = c() #Can use this vector (once filled) in later functions.
+
+for(i in 1:1300){
   #Grab and format song names
   songnameTemp = topSongs[i,3]
   songnameTemp2 = gsub("[[:punct:]]", "", songnameTemp)
@@ -124,16 +119,54 @@ for(i in 1291){
       geniusURLTemp = "https://genius.com/"
       geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
       print(geniusURL[1])
+      URLVector = append(URLVector, geniusURL[1])
     } else{
       geniusURLTemp = "https://genius.com/"
       geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
       print(geniusURL)
+      URLVector = append(URLVector, geniusURL)
     }
-
 }
 
+###################
+
+#Grab and format lyrics from links
+
+#Lyric function from ben
+get_lyrics <- function(urls) {
+  lyrics_vec <- vector(mode = "character", length(urls))
+  
+  for (i in seq_along(urls)) {
+    tryCatch({
+      html <- read_html(urls[i])
+      lyrics_node <- html_node(html, ".Dzxov , .jAzSMw , i") #.Dzxov
+      lyrics_text <- html_text(lyrics_node)
+      
+        #Formatting the lyrics correctly. These can PROBABLY be written into one line, but it sounds tedious so I didn't bother.
+        lyricsFormatTemp =  gsub("\\[.*?\\]", "", lyrics_text) #Removes square brackets
+        lyricsFormatTemp2 = gsub("[']", "", lyricsFormatTemp) #Removes apostrophes
+        lyricsFormat = gsub("(?<=[a-z])(?=[A-Z])", " ", lyricsFormatTemp2, perl=TRUE) #Adds spaces before capitals
+
+      lyrics_vec[i] <- lyricsFormat
+      print(URLVector[i])
+    }, error = function(e) {
+      lyrics_vec[i] <- "Not Found"
+    })
+  }
+  return(lyrics_vec)
+}
+
+#Can grab all links by indexing URLVector[]
+#DISCLAIMER: Will take ~1 hour to run full URLVector
+testlyric = get_lyrics(URLVector[1:10])
 
 
+#test: Starboy
+starboy = get_lyrics(URLVector[3854])
+#Appears it isn't grabbing all verses of song
 
 
+words = strsplit(tolower(starboy), "\\W+")
+word_counts = table(words)
+word_counts[order(-word_counts)]
 
