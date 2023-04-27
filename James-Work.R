@@ -1,6 +1,7 @@
 library(rvest)
 library(tidyverse)
-library(rgenius)
+#library(rgenius)  #Not used
+library(wordcloud2)
 
 #Used Ben's code to make an initial table to bind all future years to
 url1958 = "https://en.wikipedia.org/wiki/Billboard_year-end_top_50_singles_of_1958"
@@ -11,7 +12,14 @@ year = rep(1958, each = 51)
 new_table = cbind(table_1958, year)
 table_1958 = setNames(object = new_table, c("No.", "Title", "Artist", "Year")) %>%
   relocate("Year", .before = "No." )
-topSongs = table_1958[1:20,]
+
+  #Separates double songs
+  if (any(grepl("/", table_1958$Title))) {
+    table_1958 <- table_1958 %>%
+      separate_rows(Title, sep = "/")
+  }
+
+topSongs = table_1958[1:24,]
 
 for(yearVar in 1959:2011){
   #Using the iterated yearVar variable to get the url for any given year
@@ -33,6 +41,13 @@ for(yearVar in 1959:2011){
   tableTemp.2 = cbind(tableTemp, yearCol[1:10]) 
   tableTemp = setNames(object = tableTemp.2, c("No.", "Title", "Artist", "Year")) %>%
     relocate("Year", .before = "No." )
+  
+    #Separates double songs
+    if (any(grepl("/", tableTemp$Title))) {
+      tableTemp <- tableTemp %>%
+        separate_rows(Title, sep = "/")
+    }
+  
   topSongs = rbind(topSongs, tableTemp)
   print(yearVar)
 }
@@ -53,6 +68,13 @@ for(yearVar in 2012:2013){
   tableTemp.2 = cbind(tableTemp, yearCol[1:10]) 
   tableTemp = setNames(object = tableTemp.2, c("No.", "Title", "Artist", "Year")) %>%
     relocate("Year", .before = "No." )
+  
+    #Separates double songs
+    if (any(grepl("/", tableTemp$Title))) {
+      tableTemp <- tableTemp %>%
+        separate_rows(Title, sep = "/")
+    }
+  
   topSongs = rbind(topSongs, tableTemp)
   print(yearVar)
 }
@@ -79,6 +101,13 @@ for(yearVar in 2014:2022){
   tableTemp.2 = cbind(tableTemp, yearCol[1:10]) 
   tableTemp = setNames(object = tableTemp.2, c("No.", "Title", "Artist", "Year")) %>%
     relocate("Year", .before = "No." )
+  
+    #Separates double songs
+    if (any(grepl("/", tableTemp$Title))) {
+      tableTemp <- tableTemp %>%
+        separate_rows(Title, sep = "/")
+    }
+  
   topSongs = rbind(topSongs, tableTemp)
   print(yearVar)
 }
@@ -161,12 +190,35 @@ get_lyrics <- function(urls) {
 testlyric = get_lyrics(URLVector[1:10])
 
 
+#Put ben's code into a function to test various values.
+wordcount = function(x){
+  words = strsplit(tolower(x), "\\W+")
+  word_counts = table(words)
+  word_counts[order(-word_counts)]
+}
+
+####################
+
+#Testing
+
 #test: Starboy
 starboy = get_lyrics(URLVector[3854])
-#Appears it isn't grabbing all verses of song
+sbtab = as.data.frame(wordcount(starboy))
+#Appears it isn't grabbing all verses of song??
 
 
-words = strsplit(tolower(starboy), "\\W+")
-word_counts = table(words)
-word_counts[order(-word_counts)]
+songsFull = read_csv("Test_file.csv")
+wordcount(songsFull)
+
+
+###################
+
+#Formatting CSV
+testFile = read_csv("Test_file.csv")
+
+#This is the final songs + lyrics dataframe
+songsWithLyrics = cbind(topSongs, testFile) %>%
+  setNames(c("Year", "No.", "Title", "Artist", "Lyrics"))
+
+
 
