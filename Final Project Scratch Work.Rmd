@@ -165,4 +165,30 @@ new_lyrics = tolower("[Intro][Chorus 1]Groovin' on a Sunday afternoonReally coul
 words = strsplit(new_lyrics, "\\W+")
 word_counts = table(words)
 word_counts[order(-word_counts)]
+
+word_count_mean <- function(strings) {
+  # replace blank or NA values with 0
+  strings[is.na(strings) | strings == ""] <- NA
+  
+  # split strings into individual words for each index
+  words_list <- strsplit(strings, " ")
+  
+  # count the number of times each word appears in each index
+  counts_list <- lapply(words_list, table)
+  
+  # calculate the mean count of each word for each index
+  mean_counts_list <- lapply(counts_list, function(counts) {
+    # replace NA values with 0
+    counts[is.na(counts)] <- 0
+    mean(counts)
+  })
+  
+  # combine the mean counts for each index into a single vector
+  mean_counts <- unlist(mean_counts_list)
+  
+  return(mean_counts)
+}
+
 ```
+
+
