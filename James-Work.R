@@ -19,7 +19,7 @@ table_1958 = setNames(object = new_table, c("No.", "Title", "Artist", "Year")) %
       separate_rows(Title, sep = "/")
   }
 
-topSongs = table_1958[1:24,]
+topSongs = table_1958[1:26,]
 
 for(yearVar in 1959:2011){
   #Using the iterated yearVar variable to get the url for any given year
