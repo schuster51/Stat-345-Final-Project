@@ -189,6 +189,35 @@ word_count_mean <- function(strings) {
   return(mean_counts)
 }
 
+library(tidytext)
+library(wordcloud2)
+
+create_wordcloud <- function(strings) {
+  # Convert vector of strings to a dataframe
+  df <- data.frame(text = strings)
+  
+  # Tokenize the text into individual words
+  df_tokens <- df %>%
+    unnest_tokens(word, text)
+  
+  # Remove stop words (common words like "the", "and", etc.)
+  df_tokens <- df_tokens %>%
+    anti_join(stop_words)
+  
+  # Remove punctuation and convert to lowercase
+  df_tokens$word <- tolower(gsub("[[:punct:]]", "", df_tokens$word))
+  
+  # Count the frequency of each word
+  word_counts <- df_tokens %>%
+    count(word, sort = TRUE)
+  
+  # Create a word cloud
+  wordcloud2(data = word_counts, size = 0.5)
+}
+
+
+create_wordcloud(Lyrics$x)
+
 ```
 
 
