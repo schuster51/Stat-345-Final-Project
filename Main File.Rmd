@@ -11,10 +11,11 @@ library(rvest)
 library(tidyverse)
 library(wordcloud2)
 library(tidytext)
+library(tidyr)
 ```
 
 ```{r}
-#James Work: Main setup and data gathering
+#James Work: Main setup and data gathering link generation. Commented all print statements to clean up the output.
 
 #Used Ben's code to make an initial table to bind all future years to
 url1958 = "https://en.wikipedia.org/wiki/Billboard_year-end_top_50_singles_of_1958"
@@ -65,7 +66,7 @@ for(yearVar in 1959:2011){
   }
   
   topSongs = rbind(topSongs, tableTemp)
-  print(yearVar)
+  #print(yearVar)
 }
 
 #2012 and 2013 use a different table for some reason, so they must be done individually.
@@ -93,7 +94,7 @@ for(yearVar in 2012:2013){
   }
 
   topSongs = rbind(topSongs, tableTemp)
-  print(yearVar)
+  #print(yearVar)
 }
 
 #Using the original code to get the rest of the years.
@@ -126,7 +127,7 @@ for(yearVar in 2014:2022){
   }
 
   topSongs = rbind(topSongs, tableTemp)
-  print(yearVar)
+  #print(yearVar)
 }
 
 ###################
@@ -146,9 +147,9 @@ for(i in 1:1300){
   if(grepl("--", songnameFormat)){
     songnameFormat = strsplit(songnameFormat, "--")[[1]] %>%
       tolower()
-    print(songnameFormat)
+    #print(songnameFormat)
   } else{
-    print(songnameFormat)
+    #print(songnameFormat)
   }
   
   #Grab and format artist name
@@ -156,20 +157,20 @@ for(i in 1:1300){
   artistnameTemp2 = gsub("[[:punct:]]", "", artistnameTemp)
   artistnameTemp3 = gsub(" ", "-", artistnameTemp2)
   artistnameFormat = paste(artistnameTemp3, "-", sep = "")
-  print(artistnameFormat)
+  #print(artistnameFormat)
   
   #Need to remove featured artists. If there is a featured artist, it will drop their name. Otherwise, it will print song as-is (or multiple if applicable)
   if(grepl("-featuring", artistnameFormat)){
     artistnameFormat = strsplit(artistnameFormat, "featuring")[[1]]
-    print(songnameFormat[1])
+    #print(songnameFormat[1])
     geniusURLTemp = "https://genius.com/"
     geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
-    print(geniusURL[1])
+    #print(geniusURL[1])
     URLVector = append(URLVector, geniusURL[1])
   } else{
     geniusURLTemp = "https://genius.com/"
     geniusURL = paste(geniusURLTemp, artistnameFormat, songnameFormat, "-lyrics", sep = "")
-    print(geniusURL)
+    #print(geniusURL)
     URLVector = append(URLVector, geniusURL)
   }
 }
@@ -303,7 +304,6 @@ create_wordcloud <- function(strings) {
 }
 create_wordcloud(testFile$x)
 ```
-
 
 Sam's Work
 
