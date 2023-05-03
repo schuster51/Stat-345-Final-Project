@@ -223,7 +223,7 @@ testFile = read_csv("Test_file.csv")
 songsWithLyrics = cbind(topSongs, testFile) %>%
   setNames(c("Year", "No.", "Title", "Artist", "Lyrics"))
 
-
+#Made by ben
 word_count_mean <- function(strings) {
   # replace blank or NA values with 0
   strings[is.na(strings) | strings == ""] <- NA
@@ -247,12 +247,14 @@ word_count_mean <- function(strings) {
   return(mean_counts)
 }
 
+####################
+```
 
+```{r}
+#Building ggplot to see if there is any sort of trend in repetition in songs by year -James
 wordMeans = word_count_mean(testFile$x)
 
 topSongsMeans = cbind(topSongs, wordMeans)
-
-###################
 
 #Need to build new table with year and average mean.
 
@@ -271,5 +273,5 @@ plot = ggplot(year_average, aes(Year, wordMeans))
 
 plot+ geom_point(data = yearMeans, color = "red", alpha = .3)+
   geom_line(size = 1.5) +ylim(c(1.25,4)) +ylab("Mean Repitition")
-  
+
 ```
