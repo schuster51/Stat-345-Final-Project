@@ -16,6 +16,8 @@ library(tidytext)
 library(tidyr)
 ```
 
+## Main backend work. Read all data from 1958-2022 on the top 50 singles. It then grabs the top 20 and puts their names, year, and artist into a dataframe. It then uses the artist name and song title to generate links to geenius.com to grab lyrics. This process ended up taking over an hour to run, so we ran it once and put it into a CSV file so that we wouldn't have to run it every time. -James and Ben
+
 ```{r}
 #James Work: Main setup and data gathering link generation. Commented all print statements to clean up the output.
 
@@ -254,6 +256,8 @@ word_count_mean <- function(strings) {
 ####################
 ```
 
+## Build a line plot and dot plot overlaid using ggplot2 to answer our initial question of whether or not repitition changed over time. -James
+
 ```{r}
 #Building ggplot to see if there is any sort of trend in repetition in songs by year -James
 wordMeans = word_count_mean(testFile$x)
@@ -279,6 +283,8 @@ plot+ geom_point(data = yearMeans, color = "red", alpha = .3)+
   geom_line(size = 1.5) +ylim(c(1.25,4)) +ylab("Mean Repitition")
 
 ```
+
+## As a way to visualize which words were repeated most, we created a word cloud. -Ben
 
 ```{r}
 #Word cloud made by ben
@@ -307,7 +313,7 @@ create_wordcloud <- function(strings) {
 create_wordcloud(testFile$x)
 ```
 
-Sam's Work
+## Counts the numbers of occurances and used this to build word clouds for 20 year increments. This shows how top words have changed over time. -Sam 
 
 ```{R}
 library(tidytext)
