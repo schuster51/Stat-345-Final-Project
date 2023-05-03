@@ -303,3 +303,58 @@ create_wordcloud <- function(strings) {
 }
 create_wordcloud(testFile$x)
 ```
+
+
+Sam's Work
+
+```{R}
+library(tidytext)
+library(tidyverse)
+library(tidyr)
+
+get_lyrics <- function(urls) {
+  lyrics_vec <- vector(mode = "character", length(urls))
+  
+  for (i in seq_along(urls)) {
+    tryCatch({
+      html <- read_html(urls[i])
+      lyrics_node <- html_node(html, ".Dzxov , .jAzSMw , i") #.Dzxov
+      lyrics_text <- html_text(lyrics_node)
+      
+      #Formatting the lyrics correctly. These can PROBABLY be written into one line, but it sounds tedious so I didn't bother.
+      lyricsFormatTemp =  gsub("\\[.*?\\]", "", lyrics_text) #Removes square brackets
+      lyricsFormatTemp2 = gsub("[']", "", lyricsFormatTemp) #Removes apostrophes
+      lyricsFormat = gsub("(?<=[a-z])(?=[A-Z])", " ", lyricsFormatTemp2, perl=TRUE) #Adds spaces before capitals
+      
+      lyrics_vec[i] <- lyricsFormat
+      print(URLVector[i])
+    }, error = function(e) {
+      lyrics_vec[i] <- "Not Found"
+    })
+  }
+  return(lyrics_vec)
+}
+
+#Can grab all links by indexing URLVector[]
+#DISCLAIMER: Will take ~1 hour to run full URLVector
+#testlyric = get_lyrics(URLVector[1:length(URLVector)])
+
+# Read the dataframe from csv file
+write.csv(testlyric, "my_file.csv", row.names = FALSE)
+data <- read.table("my_file.csv", header = TRUE, sep = ",", quote = "\"", stringsAsFactors = FALSE)
+# Convert dataframe to tidy format
+tidy_data <- data %>%
+  gather(column_name, text) %>%
+  select(-column_name)
+
+# Tokenize the text into individual words
+tidy_data_tokens <- tidy_data %>%
+  unnest_tokens(word, text)
+
+# Count the frequency of each word
+word_freq <- tidy_data_tokens %>%
+  count(word, sort = TRUE)
+
+# Print the frequency of each word
+print(word_freq)
+```
