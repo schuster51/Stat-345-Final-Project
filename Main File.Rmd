@@ -5,6 +5,8 @@ date: "2023-05-02"
 output: html_document
 ---
 
+## Our initial goal was to see if songs became more repetitive over time. To do this, we found a resource to show the top 20 songs of each year. After that, we created links for genius.com for each song on this list. After generating these links, we can read them and pull the lyrics from each link and throw them into another dataframe. The data gathering was by far the most difficult and time-consuming part of this project and the analysis was very straightforward.
+
 ```{r setup, include=FALSE}
 #All libraries required
 library(rvest)
