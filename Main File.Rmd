@@ -348,8 +348,8 @@ get_lyrics <- function(urls) {
 #testlyric = get_lyrics(URLVector[1:length(URLVector)])
 
 # Read the dataframe from csv file
-write.csv(testlyric, "my_file.csv", row.names = FALSE)
-data <- read.table("my_file.csv", header = TRUE, sep = ",", quote = "\"", stringsAsFactors = FALSE)
+write.csv(testlyric, "Test_file.csv", row.names = FALSE)
+data <- read.table("Test_file.csv", header = TRUE, sep = ",", quote = "\"", stringsAsFactors = FALSE)
 # Convert dataframe to tidy format
 tidy_data <- data %>%
   gather(column_name, text) %>%
