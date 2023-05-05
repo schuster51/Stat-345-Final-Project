@@ -365,7 +365,7 @@ word_freq <- tidy_data_tokens %>%
 
 # Print the frequency of each word
 print(word_freq)
-```
+
 create_wordcloud <- function(strings) {
   # Convert vector of strings to a dataframe
   df <- data.frame(text = strings)
@@ -397,26 +397,4 @@ wordcloud2 <- create_wordcloud(df.filter2$x)#Create wordcloud from 1979 to 1999
 
 df.filter3 <- slice(data, c(802:1113))#Filter data from 2000 to present
 wordcloud3 <-create_wordcloud(df.filter3$x)#Create wordcloud from 2000 to present
-
-
-#########The following was attempting to display all wordclouds together, however I could not get this to work.
-#library(magick)
-#library(htmlwidgets)
-#library(webshot)
-# Save wordcloud1 as an HTML file
-#saveWidget(wordcloud1, file="wordcloud1.html")
-# Save wordcloud2 as an HTML file
-#saveWidget(wordcloud2, file="wordcloud2.html")
-# Save wordcloud3 as an HTML file
-#saveWidget(wordcloud3, file="wordcloud3.html" )
-#shot1 <- webshot("wordcloud1.html", vwidth = 600, vheight = 400, delay = 1)
-#shot2 <- webshot("wordcloud2.html", vwidth = 600, vheight = 400, delay = 1)
-#shot3 <- webshot("wordcloud3.html", vwidth = 600, vheight = 400, delay = 1)
-# Read the screenshots into image objects
-#image1 <- image_read(shot1)
-#image2 <- image_read(shot2)
-#image3 <- image_read(shot3)
-# Combine the images into a single image
-#image <- c(image1, image2, image3)
-# Display the image
-#image
+```
